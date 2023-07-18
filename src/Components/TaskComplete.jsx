@@ -11,7 +11,6 @@ const Task = ({ id, title, body, completed }) => {
   };
   const handleDelete = () => {
     dispatch(deleteTodoAsync({ id }));
-    window.location.reload(false);
   };
   return (
     <>

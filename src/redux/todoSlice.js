@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export const getTodoAsync = createAsyncThunk(
-  "todos/getTodoAsync",
-  async () => {
+export const getTodoAsync = createAsyncThunk("todos/getTodoAsync", async () => {
   const response = await fetch("http://localhost:8000/todos");
   if (response.ok) {
     const todos = await response.json();
@@ -12,21 +10,18 @@ export const getTodoAsync = createAsyncThunk(
 export const addTodoAsync = createAsyncThunk(
   "todos/addTodoAsync",
   async (payload) => {
-    const response = await fetch(
-      "http://localhost:8000/todos",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: Date.now(),
-          title: payload.title,
-          body: payload.body,
-          completed: false,
-        }),
-      }
-    );
+    const response = await fetch("http://localhost:8000/todos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: Date.now(),
+        title: payload.title,
+        body: payload.body,
+        completed: false,
+      }),
+    });
     if (response.ok) {
       const todo = await response.json();
       return { todo };
@@ -37,34 +32,36 @@ export const addTodoAsync = createAsyncThunk(
 export const toggleCompleteTodoAsync = createAsyncThunk(
   "todos/toggleCompleteTodoAsync",
   async (payload) => {
-     const response = await fetch(`http://localhost:8000/todos/${payload.id}`, {
-       method: "PATCH",
-       headers: {
-         "Content-Type": "application/json",
-       },
-       body: JSON.stringify({
-         completed: payload.completed,
-       }),
-     });
-     if (response.ok) {
-       const todo = await response.json();
-       return { id: todo.id, completed: todo.completed };
-     }
+    const response = await fetch(`http://localhost:8000/todos/${payload.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        completed: payload.completed,
+      }),
+    });
+    if (response.ok) {
+      const todo = await response.json();
+      return { id: todo.id, completed: todo.completed };
+    }
   }
 );
 export const deleteTodoAsync = createAsyncThunk(
   "todos/deleteTodoAsync",
   async (payload) => {
-     const response = await fetch(`http://localhost:8000/todos/${payload.id}`, {
-       method: "DELETE",
-       headers: {
-         "Content-Type": "application/json",
-       },
-     });
-     if (response.ok) {
-       const todo = await response.json();
-       return { id: todo.id };
-     }
+    const response = await fetch(`http://localhost:8000/todos/${payload.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      return { id: payload.id };
+    }
+
+    return { error: "not found" };
   }
 );
 
