@@ -5,9 +5,11 @@ import AddButton from "../Home/AddButton";
 import AddTask from "../../Components/AddTask";
 import Navbar from "../../Components/Navbar";
 import { useState } from "react";
+import client from "../../api/appwrite";
 
 function Home() {
   const [showModal, setShowModal] = useState(false);
+  console.log(client)
 
   return (
     <div className="bg-gray-200 h-screen">
